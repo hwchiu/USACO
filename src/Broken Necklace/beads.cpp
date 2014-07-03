@@ -10,36 +10,74 @@ using namespace std;
 int main() {
     ofstream fout ("beads.out");
     ifstream fin ("beads.in");
+	int *r_left,*r_right,*b_left,*b_right;
 	int num,max_ans=-1;
 	int left,right;
 	int ind_left,ind_right;
 	char curr;
 	char* data;
 	fin >> num;
-	data = new char[num];
+	data = new char[num<<1];
+	r_left = new int[num<<1];
+	r_right = new int[num<<1];
+	b_left = new int[num<<1];
+	b_right = new int[num<<1];
 	for(int i=0;i<num;++i){
 		fin >> data[i];
+		data[num+i] = data[i];
+		r_left[i] = r_right[i] = b_left[i] = b_right[i] = 0;
+		r_left[num+i] = r_right[num+i] = b_left[num+i] = b_right[num+i] = 0;
 	}
-	for(int i=0;i<num;++i){
-		left = right =1;
-		curr = data[i+1];
-		//right,
-		for(int j=i+2;right < num-1;++j,++right){
-			ind_right = j%num;
-			if ( curr == 'w')  curr = data[ind_right];
-			else if( data[ind_right] != curr && data[ind_right] !='w' ) break;
+	//DP 
+	//左邊跟右邊分開計算，左邊代表的是不用i點以前的所有可能性，右邊代表的是使用i的所有可能性
+	//因此左邊都是看上一個點的值，右邊都是看當前此點的值
+	for(int i=1;i<num*2;++i){
+		if(data[i-1] =='r'){
+			r_left[i] = r_left[i-1] + 1;
+			b_left[i] = 0;
 		}
-
-		curr = data[i];
-		//left
-		for(int j=i-1;(left+right) < num;--j,++left){
-			ind_left = (j+num)%num;
-			if ( curr == 'w') curr = data[ind_left];
-			else if( data[ind_left] != curr && data[ind_left] !='w' ) break;
+		else if(data[i-1] =='b'){
+			b_left[i] = b_left[i-1] + 1;
+			r_left[i] = 0;
 		}
-		max_ans = max(max_ans,left+right);
-
+		else if(data[i-1]=='w'){
+			r_left[i] = r_left[i-1] + 1;
+			b_left[i] = b_left[i-1] + 1;
+		}
 	}
+	if(data[(num<<1)-1]=='r')
+		r_right[(num<<1)-1]=1;
+	else if(data[(num<<1)-1]=='b')
+		b_right[(num<<1)-1]=1;
+	else{
+		r_right[(num<<1)-1]=1;
+		b_right[(num<<1)-1]=1;
+	}
+	for(int i=(num*2-2);i>=0;i--){
+		if(data[i] =='r'){
+			r_right[i] = r_right[i+1] + 1;
+			b_right[i] = 0;
+		}
+		else if(data[i] =='b'){
+			b_right[i] = b_right[i+1] + 1;
+			r_right[i] = 0;
+		}
+		else{
+			r_right[i] = r_right[i+1] + 1;
+			b_right[i] = b_right[i+1] + 1;
+		}
+	}
+	for(int i=0;i<num*2;i++){
+		max_ans = max(max_ans,max(r_left[i],b_left[i])+max(r_right[i],b_right[i]));
+	}
+	max_ans = min(max_ans,num);
 	fout<<max_ans<<endl;
+	delete b_right;
+	delete b_left;
+	delete r_right;
+	delete r_left;
+	delete data;
+
+
     return 0;
 }
