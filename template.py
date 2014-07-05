@@ -20,8 +20,8 @@ LANG: C++\n\
 #include <string>\n\
 using namespace std;\n\
 int main() {\n\
-    ofstream fout (\""+sys.argv[2]+"\");\n\
-    ifstream fin (\""+sys.argv[2]+"\");\n\
+    ofstream fout (\""+sys.argv[2]+".out\");\n\
+    ifstream fin (\""+sys.argv[2]+".in\");\n\
     return 0;\n\
 }"
 cppFile.write(content)
