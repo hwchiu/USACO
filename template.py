@@ -11,7 +11,7 @@ if not os.path.exists(newpath):
 cppFile = open(newpath+"/"+sys.argv[2]+".cpp",'w')
 content="\
 /*\n\
-ID: your_id_here\n\
+ID: hwchiu1\n\
 PROG: "+sys.argv[2]+"\n\
 LANG: C++\n\
 */\n\
