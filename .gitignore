@@ -18,6 +18,8 @@
 # Executables
 *.exe
 *.app
+a.out
 
 # dump
 *.core
+
