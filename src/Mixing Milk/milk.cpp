@@ -24,7 +24,6 @@ int main() {
     ifstream fin ("milk.in");
 	vector<farmer*> data;
 	int require,numOfFarmer;
-	int price,amunt;
 	int ans = 0;
 	fin >> require >> numOfFarmer;
 	for(int i=0;i<numOfFarmer;++i){
