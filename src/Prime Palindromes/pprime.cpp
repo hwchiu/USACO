@@ -15,6 +15,11 @@ int a,b;
 int dig_a,dig_b;
 ofstream fout ("pprime.out");
 ifstream fin ("pprime.in");
+enum Result{
+	ToBigger, 
+	NotPrime,
+	IsPrime 
+};
 void linear_sieve(){
 	bool *used = new bool[MAXSIZE];
 	for(int i=0;i<MAXSIZE;i++)
@@ -52,10 +57,10 @@ int backtracking(int dig_limit, int half_dig_limit, int depth,int value){
 			tmp/=10;
 		}
 		if(  ans > b)
-			return 2;
+			return ToBigger;
 		if( a <= ans && checkPrime(ans)){
 			fout<<ans<<endl;
-			return 0;
+			return IsPrime;
 		}
 	}
 	else{
@@ -63,13 +68,13 @@ int backtracking(int dig_limit, int half_dig_limit, int depth,int value){
 		for(int i=0;i<10;i++)
 		{
 			if( 0 == depth && ( i%2==0 || 5 == i) && 1 != dig_limit) continue;
-			if( 2 == backtracking(dig_limit,half_dig_limit,depth+1,value*10+i))
-				return 2;
+			if( ToBigger == backtracking(dig_limit,half_dig_limit,depth+1,value*10+i))
+				return ToBigger;
 
 		}
 		
 	}
-	return 1;
+	return NotPrime;
 
 }
 int main() {
