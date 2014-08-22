@@ -48,6 +48,7 @@ int main() {
 		map[i] = new int[M];
 		record[i] = new int[M];
 	}
+
 	for(int i=0;i<N;i++){
 		for(int j=0;j<M;j++){
 			fin >> map[i][j];
