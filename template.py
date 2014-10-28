@@ -27,5 +27,25 @@ int main() {\n\
 }"
 cppFile.write(content)
 cppFile.close()
+#Create input file
 inputFile = open(newpath+"/"+sys.argv[2]+".in",'w')
 inputFile.close()
+#Create MakeFile
+makeFile  = open(newpath+"/Makefile",'w')
+content="\
+NAME := "+sys.argv[2]+"\n\
+SRC := ${NAME}.cpp\n\
+OUTPUT := ${NAME}.out\n\
+CXX := clang++\n\
+RM := /bin/rm\n\
+\n\
+all: install\n\
+\n\
+install: ${src}\n\
+\t@${CXX} -o ${NAME} -O2 ${SRC}\n\
+\n\
+clean:\n\
+\t@${RM} -f ${OUTPUT} ${NAME}\n\
+"
+makeFile.write(content)
+makeFile.close();
